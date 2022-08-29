@@ -18,8 +18,6 @@ composer install (if error -> run again)
 
 ```bash
 php artisan migrate
-php artisan db:seed
-php artisan cms:theme:assets:publis
 ```
 
 #### STEP 4
