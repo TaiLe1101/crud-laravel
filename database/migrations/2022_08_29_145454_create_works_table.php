@@ -16,6 +16,7 @@ class CreateWorksTable extends Migration
         Schema::create('works', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->boolean("isDeleted")->default(false);
             $table->timestamps();
         });
     }

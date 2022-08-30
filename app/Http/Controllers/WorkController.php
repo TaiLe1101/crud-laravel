@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWorkRequest;
 use App\Http\Requests\UpdateWorkRequest;
 use App\Models\Work;
+use Doctrine\Inflector\Rules\Word;
 use Illuminate\Http\Request;
+
+use function Ramsey\Uuid\v1;
 
 class WorkController extends Controller
 {
@@ -48,9 +51,34 @@ class WorkController extends Controller
         //
     }
 
-    public function destroy($id, Work $work)
+    public function softDestroy($id, Work $work)
     {
-        $work->destroy($id);
+        $data = $work->find($id);
+        $data->isDeleted = true;
+        $data->save();
         return redirect()->route("works.index");
+    }
+
+    public function trash()
+    {
+        $works = Work::get();
+        return view("works/trash", [
+            "works" => $works,
+        ]);
+    }
+
+    public function delete($id, Work $works)
+    {
+        $data = $works->find($id);
+        $data->delete();
+        return redirect()->route("works.trash");
+    }
+
+    public function restore($id, Work $works)
+    {
+        $data = $works->find($id);
+        $data->isDeleted = false;
+        $data->save();
+        return redirect()->route("works.trash");
     }
 }

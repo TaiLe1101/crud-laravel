@@ -11,13 +11,13 @@
     <div class="container">
       <div class="row">
         <div class="intro col-12">
-          <h1>Work To-Dos</h1>
+          <h1>CASH</h1>
           <div>
             <div class="border1"></div>
           </div>
         </div>
       </div>
-      <form action="{{ route("works.store")  }}" method="POST">
+      {{-- <form action="{{ route("works.store")  }}" method="POST">
         @csrf
           <div class="row">
             <div class="col-12">
@@ -25,25 +25,24 @@
               <button id="enter">Thêm</button>
             </div>
           </div>
-      </form>
+      </form> --}}
       <div class="row">
         <div class="listItems col-12">
           <ul class="col-12 offset-0 col-sm-8 offset-sm-2">
-            <a href="{{ route("works.trash") }}">Thùng rác</a>
+            <a href="{{ route("works.index") }}">Trang To-Dos</a>
             @foreach ($works as $work)
                 @if($work -> isDeleted)
-                @else
-                  <li class="item">
-                      {{ $work -> name }}
-                      <div class="control">
-                          <form  method="POST" action="{{ route("works.softDestroy", ["id" => $work -> id]) }}">
-                              @csrf
-                              @method("DELETE")
-                              <button>Xóa</button>
-                          </form>
-                          <button><a href="{{ route("works.show",["id" => $work -> id]) }}">Sửa</a></button>
-                      </div>
-                  </li>
+                <li class="item">
+                    {{ $work -> name }}
+                    <div class="control">
+                        <form  method="POST" action="{{ route("works.delete", ["id" => $work -> id]) }}">
+                            @csrf
+                            @method("DELETE")
+                            <button>Xóa vĩnh viễn</button>
+                        </form>
+                        <button><a href="{{ route("works.restore",["id" => $work -> id]) }}">Phục hồi</a></button>
+                    </div>
+                </li>
                 @endif
             @endforeach
           </ul>
